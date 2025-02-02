@@ -1,6 +1,9 @@
 // src/App.jsx
 
+import { useState } from 'react'; 
 import './App.css';
+import IngredientList from './components/IngredientList/IngredientList'; 
+import BurgerStack from './components/BurgerStack/BurgerStack'; 
 
 const App = () => {
   const availableIngredients = [
@@ -20,11 +23,30 @@ const App = () => {
     { name: 'Swiss Cheese', color: '#F1E1A8' },
   ];
 
+  // حالة لتخزين المكونات التي تم إضافتها للبرغر
+  const [stack, setStack] = useState([]);
+
+ // Function to add ingredient
+  const addToBurger = (ingredient) => {
+    setStack([...stack, ingredient]);
+  };
+
+ // Function to remove ingredient
+  const removeFromBurger = () => {
+    // نستخدم pop لإزالة آخر عنصر من المصفوفة
+    const newStack = [...stack]; // ننسخ المصفوفة الأصلية لتجنب تعديلها مباشرة
+    newStack.pop(); // نزيل آخر عنصر في المصفوفة
+    setStack(newStack); // نحدّث حالة البرغر
+  };
+  
+  
+
   return (
     <main>
       <h1>Burger Stacker</h1>
       <section>
-      {/* List & Stack components */}
+      <IngredientList ingredients={availableIngredients} onAddToBurger={addToBurger} />
+      <BurgerStack ingredients={stack} onRemoveFromBurger={removeFromBurger} />
       </section>
     </main>
   );
